@@ -25,6 +25,9 @@ sleep ${FABRIC_START_TIMEOUT}
 docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.example.com/msp" peer0.org1.example.com peer channel create -o orderer.example.com:7050 -c mychannel -f /etc/hyperledger/configtx/channel.tx
 # Join peer0.org1.example.com to the channel.
 docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.example.com/msp" peer0.org1.example.com peer channel join -b mychannel.block
-docker exec -it peer1.org1.example.com
-# Time for our peers to join
-#sh ./joinPeers.sh
+docker exec -i peer1.org1.example.com bash < joinChannel.sh
+docker exec -i peer2.org1.example.com bash < joinChannel.sh
+docker exec -i peer3.org1.example.com bash < joinChannel.sh
+docker exec -i peer4.org1.example.com bash < joinChannel.sh
+docker exec -i peer5.org1.example.com bash < joinChannel.sh
+docker exec -i peer6.org1.example.com bash < joinChannel.sh
