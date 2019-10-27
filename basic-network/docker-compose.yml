@@ -72,7 +72,7 @@ services:
         - ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp:/etc/hyperledger/msp/peer
         - ./crypto-config/peerOrganizations/org1.example.com/users:/etc/hyperledger/msp/users
         - ./config:/etc/hyperledger/configtx
-        - ../chaincode:/opt/gopath/src/github.com/hyperledger/chaincode
+        - ../chaincode:/opt/gopath/src/github.com/hyperledger/fabric/chaincode
     depends_on:
       - orderer.example.com
       - couchdb
