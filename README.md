@@ -14,6 +14,9 @@ have Docker Compose version 1.14 or greater, it is recommended that you install 
 Each time this network is started, you must regenerate the crypto material by running the `generate.sh` script in the basic-network folder.
 
 ## Network commands
+
+**Please note** this only brings up a basic blockchain network with 7 peer nodes under 1 organization. Chaincode (the smart contract) is currently under development. 
+
 After you have cloned this project, open a terminal/command prompt and navigate to the folder where the locally cloned version of this project is.
 
 In order to start the fabric network, run the following commands in the project folder.

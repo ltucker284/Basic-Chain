@@ -23,11 +23,17 @@ sleep ${FABRIC_START_TIMEOUT}
 
 # Create the channel
 docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.example.com/msp" peer0.org1.example.com peer channel create -o orderer.example.com:7050 -c mychannel -f /etc/hyperledger/configtx/channel.tx
+
 # Join peer0.org1.example.com to the channel.
 docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.example.com/msp" peer0.org1.example.com peer channel join -b mychannel.block
-docker exec -i peer1.org1.example.com bash < joinChannel.sh
-docker exec -i peer2.org1.example.com bash < joinChannel.sh
-docker exec -i peer3.org1.example.com bash < joinChannel.sh
-docker exec -i peer4.org1.example.com bash < joinChannel.sh
-docker exec -i peer5.org1.example.com bash < joinChannel.sh
-docker exec -i peer6.org1.example.com bash < joinChannel.sh
+
+# Join the rest of the peers to the channel
+docker exec -i peer1.org1.example.com bash < ./setup-scripts/joinChannel.sh
+docker exec -i peer2.org1.example.com bash < ./setup-scripts/joinChannel.sh
+docker exec -i peer3.org1.example.com bash < ./setup-scripts/joinChannel.sh
+docker exec -i peer4.org1.example.com bash < ./setup-scripts/joinChannel.sh
+docker exec -i peer5.org1.example.com bash < ./setup-scripts/joinChannel.sh
+docker exec -i peer6.org1.example.com bash < ./setup-scripts/joinChannel.sh
+
+# Install and instantiate the chaincode
+#docker exec -i peer0.org1.example.com bash < ./setup-scripts/setupChaincode.sh
