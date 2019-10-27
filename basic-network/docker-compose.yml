@@ -15,12 +15,12 @@ services:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca.example.com
       - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem
-      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/4239aa0dcd76daeeb8ba0cda701851d14504d31aad1b2ddddbac6a57365e497c_sk
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/f319d3a096c6def7d024a6bd2a6739f0be3e642e214a0a10f5bd3e68c1ae2b42_sk
     ports:
       - "7051:7051"
     command: sh -c 'fabric-ca-server start -b admin:adminpw'
     volumes:
-      - ./crypto-config/peerOrganizations/org1.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+      - ./crypto-config/peerOrganizations/org1.example.com/ca:/etc/hyperledger/fabric-ca-server-config
     container_name: ca.example.com
     networks:
       - basic
@@ -60,8 +60,8 @@ services:
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_basic
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb:5984
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=Peer0
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=DEVMODE
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: peer node start
     ports:
@@ -72,13 +72,14 @@ services:
         - ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp:/etc/hyperledger/msp/peer
         - ./crypto-config/peerOrganizations/org1.example.com/users:/etc/hyperledger/msp/users
         - ./config:/etc/hyperledger/configtx
+        - ../chaincode:/opt/gopath/src/github.com/hyperledger/fabric/chaincode
     depends_on:
       - orderer.example.com
       - couchdb
     networks:
       - basic
 
-  peer1.org1.example.com:
+   peer1.org1.example.com:
     container_name: peer1.org1.example.com
     image: hyperledger/fabric-peer
     environment:
@@ -92,8 +93,8 @@ services:
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_basic
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=Peer1
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=DEVMODE
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: peer node start
     ports:
@@ -273,11 +274,9 @@ services:
   couchdb:
     container_name: couchdb
     image: hyperledger/fabric-couchdb
-    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
-    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
     environment:
-      - COUCHDB_USER=
-      - COUCHDB_PASSWORD=
+      - COUCHDB_USER=Peer0
+      - COUCHDB_PASSWORD=DEVMODE
     ports:
       - 5984:5984
     networks:
@@ -286,11 +285,9 @@ services:
   couchdb1:
     container_name: couchdb1
     image: hyperledger/fabric-couchdb
-    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
-    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
     environment:
-      - COUCHDB_USER=
-      - COUCHDB_PASSWORD=
+      - COUCHDB_USER=Peer1
+      - COUCHDB_PASSWORD=DEVMODE
     ports:
       - 5985:5985
     networks:
@@ -299,11 +296,9 @@ services:
   couchdb2:
     container_name: couchdb2
     image: hyperledger/fabric-couchdb
-    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
-    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
     environment:
-      - COUCHDB_USER=
-      - COUCHDB_PASSWORD=
+      - COUCHDB_USER=Peer2
+      - COUCHDB_PASSWORD=DEVMODE
     ports:
       - 5986:5986
     networks:
@@ -312,11 +307,9 @@ services:
   couchdb3:
     container_name: couchdb3
     image: hyperledger/fabric-couchdb
-    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
-    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
     environment:
-      - COUCHDB_USER=
-      - COUCHDB_PASSWORD=
+      - COUCHDB_USER=Peer3
+      - COUCHDB_PASSWORD=DEVMODE
     ports:
       - 5987:5987
     networks:
@@ -325,11 +318,9 @@ services:
   couchdb4:
     container_name: couchdb4
     image: hyperledger/fabric-couchdb
-    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
-    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
     environment:
-      - COUCHDB_USER=
-      - COUCHDB_PASSWORD=
+      - COUCHDB_USER=Peer4
+      - COUCHDB_PASSWORD=DEVMODE
     ports:
       - 5988:5988
     networks:
@@ -338,11 +329,9 @@ services:
   couchdb5:
     container_name: couchdb5
     image: hyperledger/fabric-couchdb
-    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
-    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
     environment:
-      - COUCHDB_USER=
-      - COUCHDB_PASSWORD=
+      - COUCHDB_USER=Peer5
+      - COUCHDB_PASSWORD=DEVMODE
     ports:
       - 5989:5989
     networks:
@@ -351,11 +340,9 @@ services:
   couchdb6:
     container_name: couchdb6
     image: hyperledger/fabric-couchdb
-    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
-    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
     environment:
-      - COUCHDB_USER=
-      - COUCHDB_PASSWORD=
+      - COUCHDB_USER=Peer6
+      - COUCHDB_PASSWORD=DEVMODE
     ports:
       - 5990:5990
     networks:
@@ -378,11 +365,6 @@ services:
     command: /bin/bash
     volumes:
         - /var/run/:/host/var/run/
-        - ./../chaincode/:/opt/gopath/src/github.com/
         - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
     networks:
         - basic
-    #depends_on:
-    #  - orderer.example.com
-    #  - peer0.org1.example.com
-    #  - couchdb
