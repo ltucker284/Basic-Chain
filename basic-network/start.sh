@@ -36,4 +36,4 @@ docker exec -i peer5.org1.example.com bash < ./setup-scripts/joinChannel.sh
 docker exec -i peer6.org1.example.com bash < ./setup-scripts/joinChannel.sh
 
 # Install and instantiate the chaincode
-#docker exec -i peer0.org1.example.com bash < ./setup-scripts/setupChaincode.sh
+docker exec -i peer0.org1.example.com bash < ./setup-scripts/setupChaincode.sh
