@@ -4,7 +4,7 @@
   "description": "Creating a blockchain based voting application",
   "main": "index.ts",
   "engines": {
-    "node": ">=8",
+    "node": ">=10",
     "npm": ">=5"
   },
   "scripts": {
