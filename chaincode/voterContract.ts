@@ -8,7 +8,7 @@ class voterContract extends Contract {
             candidate: candidate
         };
         await  ctx.stub.putState(voterId,Buffer.from(JSON.stringify(vote)));
-        console.log('A vote has been added To the ledger Succesfully..');
+        console.log('A vote has been added To the ledger succesfully..');
     }
 
     async queryVote(ctx, voterId){
