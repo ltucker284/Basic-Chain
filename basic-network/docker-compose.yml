@@ -104,6 +104,7 @@ services:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp:/etc/hyperledger/msp/peer
       - ./crypto-config/peerOrganizations/org1.example.com/users:/etc/hyperledger/msp/users
+      - ../chaincode:/opt/gopath/src/github.com/hyperledger/fabric/chaincode
     depends_on:
       - peer0.org1.example.com
       - orderer.example.com
@@ -136,6 +137,7 @@ services:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/org1.example.com/peers/peer2.org1.example.com/msp:/etc/hyperledger/msp/peer
       - ./crypto-config/peerOrganizations/org1.example.com/users:/etc/hyperledger/msp/users
+      - ../chaincode:/opt/gopath/src/github.com/hyperledger/fabric/chaincode
     depends_on:
       - peer1.org1.example.com
       - orderer.example.com
@@ -168,6 +170,7 @@ services:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/org1.example.com/peers/peer3.org1.example.com/msp:/etc/hyperledger/msp/peer
       - ./crypto-config/peerOrganizations/org1.example.com/users:/etc/hyperledger/msp/users
+      - ../chaincode:/opt/gopath/src/github.com/hyperledger/fabric/chaincode
     depends_on:
       - peer2.org1.example.com
       - orderer.example.com
@@ -200,6 +203,7 @@ services:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/org1.example.com/peers/peer4.org1.example.com/msp:/etc/hyperledger/msp/peer
       - ./crypto-config/peerOrganizations/org1.example.com/users:/etc/hyperledger/msp/users
+      - ../chaincode:/opt/gopath/src/github.com/hyperledger/fabric/chaincode
     depends_on:
       - peer3.org1.example.com
       - orderer.example.com
@@ -232,6 +236,7 @@ services:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/org1.example.com/peers/peer5.org1.example.com/msp:/etc/hyperledger/msp/peer
       - ./crypto-config/peerOrganizations/org1.example.com/users:/etc/hyperledger/msp/users
+      - ../chaincode:/opt/gopath/src/github.com/hyperledger/fabric/chaincode
     depends_on:
       - peer4.org1.example.com
       - orderer.example.com
@@ -264,6 +269,7 @@ services:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/org1.example.com/peers/peer6.org1.example.com/msp:/etc/hyperledger/msp/peer
       - ./crypto-config/peerOrganizations/org1.example.com/users:/etc/hyperledger/msp/users
+      - ../chaincode:/opt/gopath/src/github.com/hyperledger/fabric/chaincode
     depends_on:
       - peer5.org1.example.com
       - orderer.example.com

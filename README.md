@@ -34,5 +34,5 @@ the basic-network folder and run `./teardown.sh`
 
 **Please note** each time `./teardown.sh` is run, it will run the `generate.sh` script. This will 
 regenerate the cryptoconfig material. In order to ensure the Certificate Authority container runs properly, 
-make sure to double check that the value of `FABRIC_CA_SERVER_CA_KEYFILE` is set to the file name of the generated
+make sure to double check that the value of `FABRIC_CA_SERVER_CA_KEYFILE` in the `docker-compose.yml` is set to the file name of the generated
 key file in the `basic-network/crypto-config/peerOrganizations/org1.example.com/ca` directory.
