@@ -15,7 +15,7 @@ services:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca.example.com
       - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem
-      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/7bbe654df2d5e4a4a4611cbb535dc127908b825ba7f6e2a6f886d0ee68977172_sk
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/c434598d8393e743d65367ad844e6cfd63bed8d68ad9312a3ca5c7add3b2b6ef_sk
     ports:
       - "7051:7051"
     command: sh -c 'fabric-ca-server start -b admin:adminpw'
@@ -60,8 +60,8 @@ services:
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_basic
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb:5984
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
-      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=user1
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=devmode
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: peer node start
     ports:
@@ -70,8 +70,10 @@ services:
     volumes:
         - /var/run/:/host/var/run/
         - ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp:/etc/hyperledger/msp/peer
+        - ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls:/etc/hyperledger/tls
         - ./crypto-config/peerOrganizations/org1.example.com/users:/etc/hyperledger/msp/users
         - ./config:/etc/hyperledger/configtx
+        - ../chaincode:/opt/gopath/src/github.com/hyperledger/fabric/chaincode
     depends_on:
       - orderer.example.com
       - couchdb
@@ -88,7 +90,7 @@ services:
 #      - CORE_CHAINCODE_LOGGING_LEVEL=info
 #      - CORE_PEER_LOCALMSPID=Org1MSP
 #      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
-#      - CORE_PEER_ADDRESS=peer1.org1.example.com:7051
+#      - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 #      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_basic
 #      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
@@ -121,7 +123,7 @@ services:
 #      - CORE_CHAINCODE_LOGGING_LEVEL=info
 #      - CORE_PEER_LOCALMSPID=Org1MSP
 #      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
-#      - CORE_PEER_ADDRESS=peer2.org1.example.com:7051
+#      - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 #      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_basic
 #      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb:5984
@@ -154,7 +156,7 @@ services:
 #      - CORE_CHAINCODE_LOGGING_LEVEL=info
 #      - CORE_PEER_LOCALMSPID=Org1MSP
 #      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
-#      - CORE_PEER_ADDRESS=peer3.org1.example.com:7051
+#      - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 #      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_basic
 #      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb:5984
@@ -187,7 +189,7 @@ services:
 #      - CORE_CHAINCODE_LOGGING_LEVEL=info
 #      - CORE_PEER_LOCALMSPID=Org1MSP
 #      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
-#      - CORE_PEER_ADDRESS=peer4.org1.example.com:7051
+#      - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 #      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_basic
 #      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb:5984
@@ -215,7 +217,7 @@ services:
 #    image: hyperledger/fabric-peer
 #    environment:
 #      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-#      - CORE_PEER_ID=peer5.org1.example.com
+#      - CORE_PEER_ID=peer0.org1.example.com
 #      - FABRIC_LOGGING_SPEC=info
 #      - CORE_CHAINCODE_LOGGING_LEVEL=info
 #      - CORE_PEER_LOCALMSPID=Org1MSP
@@ -253,7 +255,7 @@ services:
 #      - CORE_CHAINCODE_LOGGING_LEVEL=info
 #      - CORE_PEER_LOCALMSPID=Org1MSP
 #      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
-#      - CORE_PEER_ADDRESS=peer6.org1.example.com:7051
+#      - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 #      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_basic
 #      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
 #      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb:5984
@@ -282,8 +284,8 @@ services:
     # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
     # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
     environment:
-      - COUCHDB_USER=
-      - COUCHDB_PASSWORD=
+      - COUCHDB_USER=user1
+      - COUCHDB_PASSWORD=devmode
     ports:
       - 5984:5984
     networks:
@@ -373,6 +375,5 @@ services:
     volumes:
         - /var/run/:/host/var/run/
         - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
-        - ../chaincode:/opt/gopath/src/github.com/hyperledger/fabric/peer/chaincode
     networks:
         - basic
