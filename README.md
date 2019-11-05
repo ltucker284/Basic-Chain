@@ -14,10 +14,11 @@ have Docker Compose version 1.14 or greater, it is recommended that you install 
 of Docker.
 
 This application does also have OS dependent tools which are used to generate cryptoconfig materials 
-which are necessary for the application to run. The below cURL command will install necessary binaries
-to run the application. Please run this command in the `basic-chain/bin` directory.
+which are necessary for the application to run. By default, this application uses the `bin` folder which
+contains the necessaries binaries to run this application on macOS. In order to run this on a linux machine,
+you must use the binaries in the `linux_bin` folder. To make sure the `linux_bin` is used, 
+edit the `generate.sh` folder accordingly.
 
-`curl -sSL https://goo.gl/6wtTN5 | bash -s 1.4.3 1.4.3 0.4.15`
 
 ## Network commands
 
