@@ -42,7 +42,7 @@ Organizations:
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
             - Host: peer0.org1.example.com
-              Port: 7052
+              Port: 7051
 
 ################################################################################
 #

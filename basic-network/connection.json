@@ -18,7 +18,13 @@
                 "orderer.example.com"
             ],
             "peers": {
-                "peer0.org1.example.com": {}
+                "peer0.org1.example.com": {},
+                "peer1.org1.example.com": {},
+                "peer2.org1.example.com": {},
+                "peer3.org1.example.com": {},
+                "peer4.org1.example.com": {},
+                "peer5.org1.example.com": {},
+                "peer6.org1.example.com": {}
             }
         }
     },
@@ -46,25 +52,25 @@
     },
     "peers": {
         "peer0.org1.example.com": {
-            "url": "grpc://localhost:7051"
+            "url": "grpc://localhost:7052"
         },
         "peer1.org1.example.com": {
             "url": "grpc://localhost:7052"
         },
         "peer2.org1.example.com": {
-            "url": "grpc://localhost:7053"
+            "url": "grpc://localhost:7052"
         },
         "peer3.org1.example.com": {
-            "url": "grpc://localhost:7055"
+            "url": "grpc://localhost:7052"
         },
         "peer4.org1.example.com": {
-            "url": "grpc://localhost:7056"
+            "url": "grpc://localhost:7052"
         },
         "peer5.org1.example.com": {
-            "url": "grpc://localhost:7057"
+            "url": "grpc://localhost:7052"
         },
         "peer6.org1.example.com": {
-            "url": "grpc://localhost:7058"
+            "url": "grpc://localhost:7052"
         }
     },
     "certificateAuthorities": {
