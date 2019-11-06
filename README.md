@@ -17,7 +17,7 @@ This application does also have OS dependent tools which are used to generate cr
 which are necessary for the application to run. By default, this application uses the `bin` folder which
 contains the necessaries binaries to run this application on macOS. In order to run this on a linux machine,
 you must use the binaries in the `linux_bin` folder. To make sure the `linux_bin` is used, 
-edit the `generate.sh` folder accordingly.
+edit the `generate.sh` script in the `basic-network` folder accordingly.
 
 
 ## Network commands
