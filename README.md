@@ -41,11 +41,17 @@ the basic-network folder and run `./teardown.sh`
 
 **Please note** each time `./teardown.sh` is run, it will run the `generate.sh` script. This will 
 regenerate the cryptoconfig material. In order to ensure the Certificate Authority container runs properly, 
-make sure to double check that the value of `FABRIC_CA_SERVER_CA_KEYFILE` in the `docker-compose.yml` is set to the file name of the generated
-key file in the `basic-network/crypto-config/peerOrganizations/org1.example.com/ca` directory.
+make sure to double check that the value of `FABRIC_CA_SERVER_CA_KEYFILE` in the `docker-compose.yml` is set to 
+the file name of the generated key file in the `basic-network/crypto-config/peerOrganizations/org1.example.com/ca` 
+directory.
 
 ## Installing the Application (the chaincode)
 This must be done **after** booting up the blockchain network.
 
 After navigating to the `basic-chain/chaincode` directory, run `npm install` to install all of the 
 application dependencies.
+
+### Credit
+The basis of this project was taken from https://github.com/Salmandabbakuti/hlf-chaincodeTest. It was found through 
+a tutorial on medium.com. You can view the tutorial here: 
+https://medium.com/coinmonks/start-developing-hyperledger-fabric-chaincode-in-node-js-e63b655d98db.
