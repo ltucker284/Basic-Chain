@@ -28,11 +28,13 @@ Chaincode (the smart contract) is currently under development.
 After you have cloned this project, open a terminal/command prompt and navigate to the folder 
 where the locally cloned version of this project is.
 
-In order to start the fabric network for the first time, run the following commands in the project folder.
+In order to start the fabric network for the **first time**, you should run the start.sh script in the main 
+folder of this repository. This script will generate the necessary config material the application needs
+to run. 
 
-1. `cd basic-network`
-2. `./generate.sh`
-3. `./start.sh`
+If this is **not** the first time you are booting up the network, make sure you have run the teardown.sh script
+in the `basic-network` folder first. Then you may run the secondary start script that is also in the 
+`basic-network` folder.
 
 To pause the network, make sure you are in the basic-network folder and run `./stop.sh`
 
