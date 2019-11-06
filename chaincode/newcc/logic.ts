@@ -1,43 +1,31 @@
 'use strict';
-const { Contract} = require('fabric-contract-api');
+const {Contract} = require('fabric-contract-api');
 
 class testContract extends Contract {
 
 
-
-   async queryMarks(ctx,studentId) {
+   async queryVote(ctx,voterId) {
    
-    let marksAsBytes = await ctx.stub.getState(studentId); 
+    let marksAsBytes = await ctx.stub.getState(voterId);
     if (!marksAsBytes || marksAsBytes.toString().length <= 0) {
-      throw new Error('Student with this Id does not exist: ');
+      throw new Error('A voter with this Id does not exist: ');
        }
       let marks=JSON.parse(marksAsBytes.toString());
       
       return JSON.stringify(marks);
      }
 
-   async addMarks(ctx,studentId,subject1,subject2,subject3) {
+   async addVote(ctx,voterId,candidate) {
    
-    let marks={
-       subj1:subject1,
-       subj2:subject2,
-       subj3:subject3
+    let vote={
+       candidate: candidate
        };
 
-    await ctx.stub.putState(studentId,Buffer.from(JSON.stringify(marks))); 
+    await ctx.stub.putState(voterId,Buffer.from(JSON.stringify(vote)));
     
-    console.log('Student Marks added To the ledger Succesfully..');
+    console.log('This vote was added to the ledger succesfully..');
     
   }
 
-   async deleteMarks(ctx,studentId) {
-   
-
-    await ctx.stub.deleteState(studentId); 
-    
-    console.log('Student Marks deleted from the ledger Succesfully..');
-    
-    }
 }
-
 module.exports=testContract;
