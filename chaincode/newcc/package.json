@@ -1,9 +1,8 @@
-
 {
-    "name": "test-chaincode",
+    "name": "Basic-Chain",
     "version": "1.0.0",
-    "description": "My first Exciting Node.js Chaincode on Hyperledger Fabric",
-    "main": "index.js",
+    "description": "tbd",
+    "main": "index.ts",
     "engines": {
         "node": ">=8",
         "npm": ">=5"
