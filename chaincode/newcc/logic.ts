@@ -3,10 +3,23 @@ const {Contract} = require('fabric-contract-api');
 
 class testContract extends Contract {
 
-
-   async queryVote(ctx,voterId) {
+  async addVote(ctx,voterID,candidate, timeStamp) {
+    timeStamp = Date.now();
    
-    let marksAsBytes = await ctx.stub.getState(voterId);
+    let vote={
+       voterID: voterID,
+       candidate: candidate,
+       timeStamp: timeStamp
+       };
+
+    await ctx.stub.putState(voterID,Buffer.from(JSON.stringify(vote)));
+    
+    console.log('This vote was added to the ledger succesfully..');
+    
+  }
+   async queryVote(ctx,voterID) {
+   
+    let marksAsBytes = await ctx.stub.getState(voterID);
     if (!marksAsBytes || marksAsBytes.toString().length <= 0) {
       throw new Error('A voter with this Id does not exist: ');
        }
@@ -14,18 +27,5 @@ class testContract extends Contract {
       
       return JSON.stringify(marks);
      }
-
-   async addVote(ctx,voterId,candidate) {
-   
-    let vote={
-       candidate: candidate
-       };
-
-    await ctx.stub.putState(voterId,Buffer.from(JSON.stringify(vote)));
-    
-    console.log('This vote was added to the ledger succesfully..');
-    
-  }
-
 }
 module.exports=testContract;
