@@ -1,5 +1,5 @@
 'use strict';
 
-const testContract = require('./logic');
+const votingContract = require('./contract/lib/votingContract.ts');
 
-module.exports.contracts = [ testContract ];
+module.exports.contracts = [ votingContract ];
