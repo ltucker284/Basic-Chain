@@ -6,6 +6,10 @@ We aim to build a voting system using Hyperledger Fabric (https://www.hyperledge
 which is a distributed ledger framework maintained by the Linux Foundation. The purpose of this project 
 is to bring accountability, reliability, and more security to voting systems. 
 
+Let it be known that this application currently only runs as intended on macOS. Linux binaries are included 
+in the case that someone may wish to run this application on a Linux distribution if they wished. As is,
+there are known issues when running this on a Linux machine or VM.
+
 ## Prerequisites to run this application
 
 In order to run this application you must have Docker version 17.06.2-ce or greater, Node v8 or greater,
