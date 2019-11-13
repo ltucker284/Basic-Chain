@@ -48,9 +48,9 @@ the file name of the generated key file in the `basic-network/crypto-config/peer
 directory.
 
 ## Installing the Application (the chaincode)
-This must be done **after** booting up the blockchain network.
+This must be done **before** booting up the blockchain network.
 
-After navigating to the `basic-chain/chaincode` directory, run `npm install` to install all of the 
+After navigating to the `basic-chain/chaincode/newcc` directory, run `npm install` to install all of the 
 application dependencies.
 
 ### Credit
