@@ -58,6 +58,9 @@ the file name of the generated key file in the `basic-network/crypto-config/peer
 directory.
 
 ### Credit
-The basis of this project was taken from https://github.com/Salmandabbakuti/hlf-chaincodeTest. It was found through 
+The basis of the network was taken from https://github.com/Salmandabbakuti/hlf-chaincodeTest. It was found through 
 a tutorial on medium.com. You can view the tutorial here: 
 https://medium.com/coinmonks/start-developing-hyperledger-fabric-chaincode-in-node-js-e63b655d98db.
+
+Furthermore, parts of this project were taken from Hyperledger's Fabric-Samples repository, found here:
+https://github.com/hyperledger/fabric-samples.

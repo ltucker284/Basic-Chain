@@ -1,10 +1,6 @@
 #!/bin/bash
-#
-# Copyright IBM Corp All Rights Reserved
-#
-# SPDX-License-Identifier: Apache-2.0
-#
-# Exit on first error, print all commands.
+
+# Exit on first error.
 set -e
 
 # Shut down the Docker containers for the system tests.
