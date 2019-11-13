@@ -8,7 +8,8 @@ is to bring accountability, reliability, and more security to voting systems.
 
 ## Prerequisites to run this application
 
-In order to run this application you must have Docker version 17.06.2-ce or greater.
+In order to run this application you must have Docker version 17.06.2-ce or greater, Node v8 or greater,
+and npm v5 or greater.
 The only caveat to this is that if the version of Docker installed on your machine does not 
 have Docker Compose version 1.14 or greater, it is recommended that you install a greater version 
 of Docker.
@@ -19,6 +20,11 @@ contains the necessaries binaries to run this application on macOS. In order to 
 you must use the binaries in the `linux_bin` folder. To make sure the `linux_bin` is used, 
 edit the `generate.sh` script in the `basic-network` folder accordingly.
 
+## Installing the Application (the chaincode)
+This must be done **before** booting up the blockchain network.
+
+After navigating to the `basic-chain/chaincode/newcc` directory, run `npm install` to install all of the 
+application dependencies.
 
 ## Network commands
 
@@ -46,12 +52,6 @@ regenerate the cryptoconfig material. In order to ensure the Certificate Authori
 make sure to double check that the value of `FABRIC_CA_SERVER_CA_KEYFILE` in the `docker-compose.yml` is set to 
 the file name of the generated key file in the `basic-network/crypto-config/peerOrganizations/org1.example.com/ca` 
 directory.
-
-## Installing the Application (the chaincode)
-This must be done **before** booting up the blockchain network.
-
-After navigating to the `basic-chain/chaincode/newcc` directory, run `npm install` to install all of the 
-application dependencies.
 
 ### Credit
 The basis of this project was taken from https://github.com/Salmandabbakuti/hlf-chaincodeTest. It was found through 
