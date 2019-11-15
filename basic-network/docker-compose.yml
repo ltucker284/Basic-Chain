@@ -109,6 +109,7 @@ services:
       - ./crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp:/etc/hyperledger/msp/peer
       - ./crypto-config/peerOrganizations/org1.example.com/users:/etc/hyperledger/msp/users
       - ./config:/etc/hyperledger/configtx
+      - ./../chaincode/:/opt/gopath/src/github.com
     depends_on:
       - orderer.example.com
       - couchdb1
@@ -144,6 +145,7 @@ services:
       - ./crypto-config/peerOrganizations/org1.example.com/peers/peer2.org1.example.com/msp:/etc/hyperledger/msp/peer
       - ./crypto-config/peerOrganizations/org1.example.com/users:/etc/hyperledger/msp/users
       - ./config:/etc/hyperledger/configtx
+      - ./../chaincode/:/opt/gopath/src/github.com
     depends_on:
       - orderer.example.com
       - couchdb2
@@ -179,6 +181,7 @@ services:
       - ./crypto-config/peerOrganizations/org1.example.com/peers/peer3.org1.example.com/msp:/etc/hyperledger/msp/peer
       - ./crypto-config/peerOrganizations/org1.example.com/users:/etc/hyperledger/msp/users
       - ./config:/etc/hyperledger/configtx
+      - ./../chaincode/:/opt/gopath/src/github.com
     depends_on:
       - orderer.example.com
       - couchdb3
@@ -214,6 +217,7 @@ services:
       - ./crypto-config/peerOrganizations/org1.example.com/peers/peer4.org1.example.com/msp:/etc/hyperledger/msp/peer
       - ./crypto-config/peerOrganizations/org1.example.com/users:/etc/hyperledger/msp/users
       - ./config:/etc/hyperledger/configtx
+      - ./../chaincode/:/opt/gopath/src/github.com
     depends_on:
       - orderer.example.com
       - couchdb4
@@ -249,6 +253,7 @@ services:
       - ./crypto-config/peerOrganizations/org1.example.com/peers/peer5.org1.example.com/msp:/etc/hyperledger/msp/peer
       - ./crypto-config/peerOrganizations/org1.example.com/users:/etc/hyperledger/msp/users
       - ./config:/etc/hyperledger/configtx
+      - ./../chaincode/:/opt/gopath/src/github.com
     depends_on:
       - orderer.example.com
       - couchdb5
@@ -277,13 +282,14 @@ services:
     #    command: peer node start --peer-chaincodedev=true
     ports:
       - 7070:7070
-      - 7071:707
+      - 7071:7071
       - 7072:7072
     volumes:
       - /var/run/:/host/var/run/
       - ./crypto-config/peerOrganizations/org1.example.com/peers/peer6.org1.example.com/msp:/etc/hyperledger/msp/peer
       - ./crypto-config/peerOrganizations/org1.example.com/users:/etc/hyperledger/msp/users
       - ./config:/etc/hyperledger/configtx
+      - ./../chaincode/:/opt/gopath/src/github.com
     depends_on:
       - orderer.example.com
       - couchdb6
