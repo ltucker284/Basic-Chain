@@ -4,7 +4,7 @@ SPDX-License-Identifier: Apache-2.0
 'use strict';
 
 // Utility class for ledger state
-const State = require('../ledger-api/state.ts');
+const State = require('../ledger-api/state.js');
 
 // Enumerate commercial paper state values
 const votingState = {

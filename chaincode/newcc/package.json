@@ -2,7 +2,7 @@
     "name": "Basic-Chain",
     "version": "1.0.0",
     "description": "tbd",
-    "main": "index.ts",
+    "main": "index.js",
     "engines": {
         "node": ">=8",
         "npm": ">=5"

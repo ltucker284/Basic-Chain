@@ -8,8 +8,8 @@ SPDX-License-Identifier: Apache-2.0
 const { Contract, Context } = require('fabric-contract-api');
 
 // PaperNet specifc classes
-const CommercialPaper = require('./vote.ts');
-const VoteList = require('./votelist.ts');
+const CommercialPaper = require('./vote.js');
+const VoteList = require('./votelist.js');
 
 /**
  * A custom context provides easy access to list of all commercial papers

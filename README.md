@@ -10,6 +10,10 @@ Let it be known that this application currently only runs as intended on macOS. 
 in the case that someone may wish to run this application on a Linux distribution if they wished. As is,
 there are known issues when running this on a Linux machine or VM.
 
+The python folder is an implementation of a linked list and merkle tree derived from this repository here:
+https://github.com/JaeDukSeo/Simple-Merkle-Tree-in-Python. It is completely seperate from the Hyperledger 
+application.
+
 ## Prerequisites to run this application
 
 In order to run this application you must have Docker version 17.06.2-ce or greater, Node v8 or greater,

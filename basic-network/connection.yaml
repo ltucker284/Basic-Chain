@@ -13,13 +13,37 @@ channels:
         orderers:
         - orderer.example.com
         peers:
-            peer0.org1.example.com: {}
-            peer1.org1.example.com: {}
-            peer2.org1.example.com: {}
-            peer3.org1.example.com: {}
-            peer4.org1.example.com: {}
-            peer5.org1.example.com: {}
-            peer6.org1.example.com: {}
+            peer0.org1.example.com:
+                endorsingPeer: true
+                chaincodeQuery: true
+                ledgerQuery: true
+                eventSource: true
+            peer1.org1.example.com:
+                endorsingPeer: true
+                chaincodeQuery: true
+                ledgerQuery: true
+            peer2.org1.example.com:
+                endorsingPeer: true
+                chaincodeQuery: true
+                ledgerQuery: true
+            peer3.org1.example.com:
+                endorsingPeer: true
+                chaincodeQuery: true
+                ledgerQuery: true
+            peer4.org1.example.com:
+                endorsingPeer: true
+                chaincodeQuery: true
+                ledgerQuery: true
+            peer5.org1.example.com:
+                endorsingPeer: true
+                chaincodeQuery: true
+                ledgerQuery: true
+            peer6.org1.example.com:
+                endorsingPeer: true
+                chaincodeQuery: true
+                ledgerQuery: true
+        chaincodes:
+            - mycc:1.0
 
 organizations:
     Org1:
