@@ -1,6 +1,7 @@
 import random
 import hashlib
 import time
+from merkle_tree import merkle_tree
 # What should a voter instance have?
 #voter_id = random.randrange(1, 10)
 
@@ -8,6 +9,18 @@ import time
 # vote_number =
 # timestamp = datetime.now()
 # candidate_hash = 
+
+def generate_genesis_block():
+    time_stamp = time.mktime(time.strptime('11/03/2020-07:59AM', '%m/%d/%Y-%I:%M%p'))
+    start_timestamp = time.strftime('%m/%d/%Y-%I:%M%p', time.localtime(time_stamp))
+    genesis_block = ['0', '0', "Nonce", start_timestamp]
+    merk_tree = merkle_tree()
+    transaction = genesis_block
+    merk_tree.list1 = transaction
+    merk_tree.create_tree()
+    genesis_root = merk_tree.Get_root_leaf()
+
+    return genesis_root
 
 def generate_candiate_hash():
     candidate_one = 'Candidate_one'
@@ -38,17 +51,43 @@ def create_vote(id_list, candidate_hash):
         vote_number += 1
         if candidate_chosen == 1:
             #vote[id_list[i]] = vote_number, candidate_hash[0], vote_cast_time
-            temp_vote.append([id_list[i], vote_number, candidate_hash[0], vote_cast_time])
+            temp_vote.append([str(id_list[i]), str(vote_number), candidate_hash[0], vote_cast_time])
         else:
             #vote[id_list[i]] = vote_number, candidate_hash[1], vote_cast_time
-            temp_vote.append([id_list[i], vote_number, candidate_hash[1], vote_cast_time])
+            temp_vote.append([str(id_list[i]), str(vote_number), candidate_hash[1], vote_cast_time])
     
-    print(temp_vote)
+    return temp_vote
+
+def create_block_chain(temp_list):
+    block_chain = {}
+
+    for index in range(0, len(temp_list)):
+        if index == len(temp_list)-1:
+            break
+        else:
+            block_chain[temp_list[index]] = temp_list[index+1]
+    print(block_chain)
 
 if __name__ == "__main__":
+    temp_list = []
+    genesis_root = generate_genesis_block()
+    temp_list.append(genesis_root)
     candidate_hash = generate_candiate_hash()
     id_list = create_id()
-    create_vote(id_list, candidate_hash)
+    temp_vote = create_vote(id_list, candidate_hash)
+    
+    for vote in temp_vote:
+        merk_tree = merkle_tree()
+        transaction = vote
+        #print("Vote Instance: {}".format(transaction))
+        merk_tree.list1 = transaction
+        merk_tree.create_tree()
+        merkle_root = merk_tree.Get_root_leaf()
+        temp_list.append(merkle_root)
 
+        #print("Merkle Root: {}".format(merkle_root))
+    
+    create_block_chain(temp_list)
+    
 
 
