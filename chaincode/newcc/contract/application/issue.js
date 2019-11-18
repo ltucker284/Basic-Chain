@@ -18,11 +18,12 @@ SPDX-License-Identifier: Apache-2.0
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { FileSystemWallet, Gateway } = require('fabric-network');
-const CommercialPaper = require('../contract/lib/paper.js');
+const Vote = require('../lib/vote.js');
 
 // A wallet stores a collection of identities for use
 //const wallet = new FileSystemWallet('../user/isabella/wallet');
-const wallet = new FileSystemWallet('../identity/user/isabella/wallet');
+const wallet = new FileSystemWallet('../identity/admin/wallet');
+// const userName = 'Admin@org1.example.com';
 
 // Main program function
 async function main() {
@@ -33,18 +34,14 @@ async function main() {
     // Main try/catch block
     try {
 
-        // Specify userName for network access
-        // const userName = 'isabella.issuer@magnetocorp.com';
-        const userName = 'User1@org1.example.com';
-
         // Load connection profile; will be used to locate a gateway
-        let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/networkConnection.yaml', 'utf8'));
+        let connectionProfile = yaml.safeLoad(fs.readFileSync('../../../../basic-network/connection.yaml', 'utf8'));
 
         // Set connection options; identity and wallet
         let connectionOptions = {
-            identity: userName,
+            identity: 'Admin@org1.example.com',
             wallet: wallet,
-            discovery: { enabled:false, asLocalhost: true }
+            discovery: { enabled: true, asLocalhost: true }
         };
 
         // Connect to gateway using application specified parameters
@@ -58,21 +55,21 @@ async function main() {
         const network = await gateway.getNetwork('mychannel');
 
         // Get addressability to commercial paper contract
-        console.log('Use org.papernet.commercialpaper smart contract.');
+        console.log('Use org.example smart contract.');
 
-        const contract = await network.getContract('papercontract');
+        const contract = await network.getContract('votingcontract');
 
         // issue commercial paper
-        console.log('Submit commercial paper issue transaction.');
+        console.log('Submit vote issue transaction.');
 
         const issueResponse = await contract.submitTransaction('issue', 'MagnetoCorp', '00001', '2020-05-31', '2020-11-30', '5000000');
 
         // process response
         console.log('Process issue transaction response.'+issueResponse);
 
-        let paper = CommercialPaper.fromBuffer(issueResponse);
+        let vote = Vote.fromBuffer(issueResponse);
 
-        console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully issued for value ${paper.faceValue}`);
+        console.log(`${vote.issuer} vote : ${vote.voteNumber} successfully issued for value ${vote.faceValue}`);
         console.log('Transaction complete.');
 
     } catch (error) {

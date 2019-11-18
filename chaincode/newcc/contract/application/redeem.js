@@ -18,10 +18,10 @@ SPDX-License-Identifier: Apache-2.0
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { FileSystemWallet, Gateway } = require('fabric-network');
-const CommercialPaper = require('../contract/lib/paper.js');
+const Vote = require('../lib/vote.js');
 
 // A wallet stores a collection of identities for use
-const wallet = new FileSystemWallet('../identity/user/balaji/wallet');
+const wallet1 = new FileSystemWallet('../identity/user/user1/wallet');
 
 // Main program function
 async function main() {
@@ -37,12 +37,12 @@ async function main() {
         const userName = 'Admin@org1.example.com';
 
         // Load connection profile; will be used to locate a gateway
-        let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/networkConnection.yaml', 'utf8'));
+        let connectionProfile = yaml.safeLoad(fs.readFileSync('../../../../basic-network/connection.yaml', 'utf8'));
 
         // Set connection options; identity and wallet
         let connectionOptions = {
             identity: userName,
-            wallet: wallet,
+            wallet1: wallet1,
             discovery: { enabled:false, asLocalhost: true }
         };
 
@@ -57,9 +57,9 @@ async function main() {
         const network = await gateway.getNetwork('mychannel');
 
         // Get addressability to commercial paper contract
-        console.log('Use org.papernet.commercialpaper smart contract.');
+        console.log('Use org.example smart contract.');
 
-        const contract = await network.getContract('papercontract', 'org.papernet.commercialpaper');
+        const contract = await network.getContract('votingcontract', 'org.example');
 
         // redeem commercial paper
         console.log('Submit commercial paper redeem transaction.');
@@ -69,9 +69,9 @@ async function main() {
         // process response
         console.log('Process redeem transaction response.');
 
-        let paper = CommercialPaper.fromBuffer(redeemResponse);
+        let vote = Vote.fromBuffer(redeemResponse);
 
-        console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully redeemed with ${paper.owner}`);
+        console.log(`${vote.issuer} commercial paper : ${vote.paperNumber} successfully redeemed with ${vote.owner}`);
         console.log('Transaction complete.');
 
     } catch (error) {
