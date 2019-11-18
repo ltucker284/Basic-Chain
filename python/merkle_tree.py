@@ -4,7 +4,7 @@
 # Code has been updated to Python 3. 
 #######################################
 
-import hashlib
+import hashlib,json
 from collections import OrderedDict
 
 class merkle_tree:
@@ -20,32 +20,33 @@ class merkle_tree:
 
         for index in range(0, len(list1), 2):
             current_index = list1[index]
-            print("Current Index is: ", current_index)
+            #print("Current Index is: ", current_index)
 
             if index+1 != len(list1):
                 current_right_index = (list1[index+1]).encode('utf-8')
-                print("Current Right Index is: ", current_right_index)
+                #print("Current Right Index is: ", current_right_index)
             else:
                 current_right_index = ''
             
             current_hash = hashlib.sha256(current_index.encode('utf-8'))
-            print("Current Index {}: HASH = {}".format(current_index, current_hash.hexdigest()))
+            #print("Hashing Index {}: HASH = {}".format(current_index, current_hash.hexdigest()))
 
             if current_right_index != '':
                 current_right_hash = hashlib.sha256(current_right_index)
+                #print("Hashing Index {}: RIGHT HASH = {}".format(current_right_index, current_right_hash.hexdigest()))
 
             past_transaction[list1[index]] = current_hash.hexdigest()
-            print("Current Contents of Past Transaction: ", past_transaction)
+            #print("Current Contents of Past Transaction: ", past_transaction)
 
             if current_right_index != '':
                 past_transaction[list1[index+1]] = current_right_hash.hexdigest()
             
             if current_right_index != '':
                 temp_transaction.append(current_hash.hexdigest() + current_right_hash.hexdigest())
-                print("Temp Transaction:" ,temp_transaction)
+                #print("Temp Transaction:" ,temp_transaction)
             else:
                 temp_transaction.append(current_hash.hexdigest())
-                print(temp_transaction)
+                #print(temp_transaction)
         
         if len(list1) != 1:
             self.list1 = temp_transaction
@@ -57,15 +58,17 @@ class merkle_tree:
     
     def Get_root_leaf(self):
         last_key = list(self.past_transaction.keys())[-1]
-        return self.past_transaction[last_key]
+        # return self.past_transaction[last_key]
+        return last_key
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    Merk_tree = merkle_tree()
-    transaction = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-    Merk_tree.list1 = transaction
-    Merk_tree.create_tree()
+#     Merk_tree = merkle_tree()
+#     transaction = ['a', 'b', 'c', 'd']
+#     Merk_tree.list1 = transaction
+#     Merk_tree.create_tree()
+#     past_transaction = Merk_tree.Get_past_transaction()
     
-    print("Past Transaction: ", Merk_tree.Get_past_transaction())
-    print("Final root of the tree: ", Merk_tree.Get_root_leaf())
+#     print("Past Transaction: ", Merk_tree.Get_past_transaction())
+#     print("Final root of the tree: ", Merk_tree.Get_root_leaf())
 
