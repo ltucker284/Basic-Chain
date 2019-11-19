@@ -3,11 +3,6 @@ name: basic-network
 version: 1.0.0
 client:
     organization: Org1
-    connection:
-        timeout:
-            peer:
-                endorser: '300'
-            orderer: '300'
 channels:
     mychannel:
         orderers:
@@ -49,34 +44,88 @@ organizations:
     Org1:
         mspid: Org1MSP
         peers:
-        - peer0.org1.example.com
-        - peer1.org1.example.com
-        - peer2.org1.example.com
-        - peer3.org1.example.com
-        - peer4.org1.example.com
-        - peer5.org1.example.com
-        - peer6.org1.example.com
+            peer0.org1.example.com: {}
+            peer1.org1.example.com: {}
+            peer2.org1.example.com: {}
+            peer3.org1.example.com: {}
+            peer4.org1.example.com: {}
+            peer5.org1.example.com: {}
+            peer6.org1.example.com: {}
         certificateAuthorities:
         - ca.example.com
+        adminPrivateKey:
+            path: ../../../../basic-network/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/1186945c2af94f5465fc9aaf348bdae34a6a4be1b8adc07799a9452a0722c657_sk
+        signedCert:
+            path: ../../../../basic-network/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem
 orderers:
     orderer.example.com:
-        url: grpc://localhost:7050
+        url: grpcs://localhost:7050
+        grpcsOptions:
+            ssl-target-name-override: orderer.example.com
+        tlsCACerts:
+            path: ../../../../basic-network/crypto-config/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem
 peers:
     peer0.org1.example.com:
-        url: grpc://localhost:7052
+        url: grpcs://localhost:7052
+        tlsCACerts:
+            path: ../../../../basic-network/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
+        grpcsOptions:
+            ssl-target-name-override: peer0.org1.example.com
+            request-timeout: 1200
+
     peer1.org1.example.com:
-        url: grpc://localhost:7052
+        url: grpcs://localhost:7052
+        tlsCACerts:
+            path: ../../../../basic-network/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
+        grpcsOptions:
+            ssl-target-name-override: peer1.org1.example.com
+            request-timeout: 1200
+
     peer2.org1.example.com:
-        url: grpc://localhost:7052
+        url: grpcs://localhost:7052
+        tlsCACerts:
+            path: ../../../../basic-network/crypto-config/peerOrganizations/org1.example.com/peers/peer2.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
+        grpcsOptions:
+            ssl-target-name-override: peer2.org1.example.com
+            request-timeout: 1200
+
     peer3.org1.example.com:
-        url: grpc://localhost:7052
+        url: grpcs://localhost:7052
+        tlsCACerts:
+            path: ../../../../basic-network/crypto-config/peerOrganizations/org1.example.com/peers/peer3.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
+        grpcsOptions:
+            ssl-target-name-override: peer3.org1.example.com
+            request-timeout: 1200
+
     peer4.org1.example.com:
-        url: grpc://localhost:7052
+        url: grpcs://localhost:7052
+        tlsCACerts:
+            path: ../../../../basic-network/crypto-config/peerOrganizations/org1.example.com/peers/peer4.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
+        grpcsOptions:
+            ssl-target-name-override: peer4.org1.example.com
+            request-timeout: 1200
+
     peer5.org1.example.com:
-        url: grpc://localhost:7052
+        url: grpcs://localhost:7052
+        tlsCACerts:
+            path: ../../../../basic-network/crypto-config/peerOrganizations/org1.example.com/peers/peer5.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
+        grpcsOptions:
+            ssl-target-name-override: peer5.org1.example.com
+            request-timeout: 1200
+
     peer6.org1.example.com:
-        url: grpc://localhost:7052
+        url: grpcs://localhost:7052
+        tlsCACerts:
+            path: ../../../../basic-network/crypto-config/peerOrganizations/org1.example.com/peers/peer6.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
+        grpcsOptions:
+            ssl-target-name-override: peer6.org1.example.com
+            request-timeout: 1200
+
 certificateAuthorities:
     ca.example.com:
-        url: http://localhost:7054
+        url: https://localhost:7054
         caName: ca.example.com
+        httpOptions:
+            verify: false
+        tlsCACerts:
+            path: ../../../../basic-network/crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem

@@ -41,7 +41,7 @@ async function main() {
         let connectionOptions = {
             identity: 'Admin@org1.example.com',
             wallet: wallet,
-            discovery: { enabled: true, asLocalhost: true }
+            discovery: { enabled: false, asLocalhost: true }
         };
 
         // Connect to gateway using application specified parameters
