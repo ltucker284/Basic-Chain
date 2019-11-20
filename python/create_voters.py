@@ -43,7 +43,7 @@ def create_id():
     return id_list
 
 def create_vote(id_list, candidate_hash):
-    """This function takes the voter_ids and the candidate hashes, and creates voter instances with them"""
+    """This function takes the voter_ids and the candidate hashes, and creates voter instances with these values"""
     vote_list = []
     vote_number = 0
     start_timestamp = time.mktime(time.strptime('11/03/2020-08:00AM', '%m/%d/%Y-%I:%M%p'))  # time.mktime() generates a time_stamp in unix time.
