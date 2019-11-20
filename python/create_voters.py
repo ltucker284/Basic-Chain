@@ -1,13 +1,14 @@
 ##########################################################################
 # Author: Juan Matiz
 # CSC 450
-# Summary: The following script attempts to mimic the two most of basic
+# Summary: The following script attempts to mimic the two most basic
 # components of a blockchain, a merkle tree and linked list, and demonstrates
 ##########################################################################
 
-import random
 import hashlib
+import random
 import time
+from collections import OrderedDict
 from merkle_tree import merkle_tree
 
 def generate_genesis_block():
@@ -64,21 +65,21 @@ def create_vote(id_list, candidate_hash):
 
 def create_block_chain(merkle_root_list):
     """This function takes the merkle roots from each vote instance and inserts them into a dictionary."""
-    block_chain = {}
-
+    block_chain = OrderedDict()
+    merkle_root_list = merkle_root_list[::-1]  # Reverses the order of the list
     for index in range(0, len(merkle_root_list)):  # Loops through the list of merkle roots for each vote and assigns them as key,value.
         if index == len(merkle_root_list)-1:
             break
         else:
             block_chain[merkle_root_list[index]] = merkle_root_list[index+1]  # First merkle root is the root from the genesis block.
-    
+
     return block_chain
 
 def create_tampered_vote(vote_list, candidate_hash):
     """This function takes a user input and modifies a voter's candidate choice."""
     index = input("Alter a vote by typing an index value from 0 to 19: ")
     index = int(index)
-    print("Actual Vote: {}".format(vote_list[index]))
+    #print("Actual Vote: {}".format(vote_list[index]))
     if vote_list[index][2] == candidate_hash[0]:  # vote_list is a list of lists. Candidate hash are a tuple.
         # print("Current candidate hash: {}".format(vote_list[0][2]))
         vote_list[index][2] = candidate_hash[1]
@@ -96,14 +97,23 @@ def create_tampered_vote(vote_list, candidate_hash):
     return vote_list[index], tampered_vote_merkle_root  # Returns tampered vote, and the new merkle root.
 
 def compare_values(block_chain, tampered_vote):
-    """This function takes the Merkle root of the tampered vote and "queries" the blockchain for authenticity."""
+    """This function takes the Merkle root of the tampered vote and "queries" the "blockchain" to see whether the root is part of the chain or not."""
     try:
-        block_chain[tampered_vote[1]]
+        block_chain[tampered_vote[1]]  # tampered_vote is a tuple containing the vote, and the merkle root. This value returns the merkle_root
     except KeyError as err:
         err = "Vote has been tampered"
         print(err)
     else:
         print("No tampering has occurred")
+
+def query_vote(block_chain):
+    query_vote_list = []
+    user_input = input("Would you like to search for your vote in the chain: (Yes/No)")
+    user_input = user_input.upper()
+    if user_input == "YES":
+        print("Yes")
+
+
 
 if __name__ == "__main__":
     merkle_root_list = []
@@ -127,6 +137,5 @@ if __name__ == "__main__":
     block_chain = create_block_chain(merkle_root_list)
     tampered_vote = create_tampered_vote(vote_list, candidate_hash)
     compare_values(block_chain, tampered_vote)
-    print("Tampered Vote: {}".format(tampered_vote))
-
+    #print("Tampered Vote: {}".format(tampered_vote))
 
