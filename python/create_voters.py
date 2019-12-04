@@ -16,13 +16,8 @@ def generate_genesis_block():
     time_stamp = time.mktime(time.strptime('11/03/2020-07:59AM', '%m/%d/%Y-%I:%M%p'))  # time.mktime() generates a time_stamp in unix time.
     start_timestamp = time.strftime('%m/%d/%Y-%I:%M%p', time.localtime(time_stamp))  # time.strftime() formats the unix time into a human readable timestamp string.
     genesis_block = ['0', '0', "Nonce", start_timestamp] 
-    merk_tree = merkle_tree()  # merkle_tree class in merkle_tree.py is called
-    transaction = genesis_block  # The list containing the values of the genesis block are passed to the merk_tree class.
-    merk_tree.list1 = transaction  # Transaction is passed into the list variable of the merkle_tree class.
-    merk_tree.create_tree()
-    genesis_root = merk_tree.Get_root_leaf()  # Get_root_leaf() function returns the value contained in the OrderedDict created by create_tree()
 
-    return genesis_root
+    return genesis_block
 
 def generate_candiate_hash():
     """This function generates the hashes for two candidates"""
@@ -42,9 +37,10 @@ def create_id():
 
     return id_list
 
-def create_vote(id_list, candidate_hash):
+def create_vote(genesis_block, id_list, candidate_hash):
     """This function takes the voter_ids and the candidate hashes, and creates voter instances with these values"""
     vote_list = []
+    vote_list.append(genesis_block)
     vote_number = 0
     start_timestamp = time.mktime(time.strptime('11/03/2020-08:00AM', '%m/%d/%Y-%I:%M%p'))  # time.mktime() generates a time_stamp in unix time.
     end_timestamp = time.mktime(time.strptime('11/03/2020-08:00PM', '%m/%d/%Y-%I:%M%p'))
@@ -55,73 +51,68 @@ def create_vote(id_list, candidate_hash):
         vote_cast_time = time.strftime('%m/%d/%Y-%I:%M%p', time.localtime(random.randrange(start_timestamp,end_timestamp)))  # Returns a time_stamp string that is genereated at random.
         vote_number += 1
         if candidate_chosen == 1:
-            #vote[id_list[i]] = vote_number, candidate_hash[0], vote_cast_time
+            #vote[id_list[i]] = vote_number, candidate_hash[0], vote_cast_time 
             vote_list.append([str(id_list[i]), str(vote_number), candidate_hash[0], vote_cast_time])  # Creates a list and appends them to vote_list
         else:
             #vote[id_list[i]] = vote_number, candidate_hash[1], vote_cast_time
             vote_list.append([str(id_list[i]), str(vote_number), candidate_hash[1], vote_cast_time])
-    
+
     return vote_list
 
-def create_block_chain(merkle_root_list):
+def create_block_chain(vote_block):
     """This function takes the merkle roots from each vote instance and inserts them into a dictionary."""
     block_chain = OrderedDict()
-    merkle_root_list = merkle_root_list[::-1]  # Reverses the order of the list
-    for index in range(0, len(merkle_root_list)):  # Loops through the list of merkle roots for each vote and assigns them as key,value.
-        if index == len(merkle_root_list)-1:
+    vote_block = vote_block[::-1]  # Reverses the order of the list
+    for index in range(0, len(vote_block)):
+        if index == len(vote_block)-1:
             break
         else:
-            block_chain[merkle_root_list[index]] = merkle_root_list[index+1]  # First merkle root is the root from the genesis block.
+            block_chain[vote_block[index][4]] = vote_block[index+1][4]
 
-    return block_chain
+    return block_chain, vote_block
 
-def create_tampered_vote(vote_list, candidate_hash):
+def create_tampered_vote(block_chain, vote_block, candidate_hash):
     """This function takes a user input and modifies a voter's candidate choice."""
-    index = input("Alter a vote by typing an index value from 0 to 19: ")
-    index = int(index)
-    #print("Actual Vote: {}".format(vote_list[index]))
-    if vote_list[index][2] == candidate_hash[0]:  # vote_list is a list of lists. Candidate hash are a tuple.
-        # print("Current candidate hash: {}".format(vote_list[0][2]))
-        vote_list[index][2] = candidate_hash[1]
-        # print("New Camdidate_One: {}".format(vote_list[0][2]))
-    else:
-        vote_list[index][2] = candidate_hash[0]
-        # print("New Candidate_Two: {}".format(vote_list[0][2]))
-
     merk_tree = merkle_tree()
-    transaction = vote_list[index]
-    merk_tree.list1 = transaction
-    merk_tree.create_tree()
-    tampered_vote_merkle_root = merk_tree.Get_root_leaf()
-
-    return vote_list[index], tampered_vote_merkle_root  # Returns tampered vote, and the new merkle root.
-
-def compare_values(block_chain, tampered_vote):
-    """This function takes the Merkle root of the tampered vote and "queries" the "blockchain" to see whether the root is part of the chain or not."""
-    try:
-        block_chain[tampered_vote[1]]  # tampered_vote is a tuple containing the vote, and the merkle root. This value returns the merkle_root
-    except KeyError as err:
-        err = "Vote has been tampered"
-        print(err)
+    index = input("Alter a vote by typing an index value from 1 to 20: ")
+    index = int(index)
+    key = vote_block[index][4]  # The merkle_root of that specific block is assigned to key
+    if vote_block[index][2] == candidate_hash[0]:  # Checks whether the value of the candidate hash equals the value of the tuple candidate_hash at index 0.
+        print("Current Block Chain: {}".format(block_chain))  
+        vote_block[index][2] = candidate_hash[1]  # If true, changes value of candidate hash to candidate_two hash value.
+        del vote_block[index][-1]  # Deletes the merkle_root of this specific block. We do not want this value to be hashed with the rest of the data in the list.
+        transaction = vote_block[index]
+        print("\nVote Candidate One Changed: {}".format(vote_block[index]))
+        #print("Vote Instance: {}".format(transaction))
+        merk_tree.list1 = transaction
+        merk_tree.create_tree()
+        merkle_root = merk_tree.Get_root_leaf()
+        print("\nMerkle Root: {}".format(merkle_root))
+        block_chain[merkle_root] = block_chain.pop(key)  # Remove the old key and assign it the new merkle_root calculated from the tampered data.
+        print(block_chain)
+        # return block_chain
     else:
-        print("No tampering has occurred")
-
-def query_vote(block_chain):
-    query_vote_list = []
-    user_input = input("Would you like to search for your vote in the chain: (Yes/No)")
-    user_input = user_input.upper()
-    if user_input == "YES":
-        print("Yes")
-
-
+        vote_block[index][2] = candidate_hash[0]
+        print("Current Block Chain prior to candidate two being changed: {}".format(block_chain))
+        del vote_block[index][-1]
+        transaction = vote_block[index]
+        print("\nVote Candidate Two changed: {}".format(vote_block[index]))
+        # #print("Vote Instance: {}".format(transaction))
+        merk_tree.list1 = transaction
+        merk_tree.create_tree()
+        merkle_root = merk_tree.Get_root_leaf()
+        print("\nMerkle Root: {}".format(merkle_root))
+        block_chain[merkle_root] = block_chain.pop(key)
+        print(block_chain)
+        # return block_chain
 
 if __name__ == "__main__":
     merkle_root_list = []
-    genesis_root = generate_genesis_block()
-    merkle_root_list.append(genesis_root)
+    genesis_block = generate_genesis_block()
     candidate_hash = generate_candiate_hash()
     id_list = create_id()
-    vote_list = create_vote(id_list, candidate_hash)
+    vote_list = create_vote(genesis_block, id_list, candidate_hash)
+    vote_block = []
     
     for vote in vote_list:  # Loops through each vote and creates a merkle tree, returns a list of merkle_roots. 
         merk_tree = merkle_tree()
@@ -130,12 +121,12 @@ if __name__ == "__main__":
         merk_tree.list1 = transaction
         merk_tree.create_tree()
         merkle_root = merk_tree.Get_root_leaf()
-        merkle_root_list.append(merkle_root)
+        vote.append(merkle_root)
+        vote_block.append(vote)
 
         #print("Merkle Root: {}".format(merkle_root))
+    block_chain = create_block_chain(vote_block)
+    create_tampered_vote(block_chain[0], block_chain[1], candidate_hash)
+    # tamper_block_chain(block_chain, merkle_root_list, tampered_vote)
     
-    block_chain = create_block_chain(merkle_root_list)
-    tampered_vote = create_tampered_vote(vote_list, candidate_hash)
-    compare_values(block_chain, tampered_vote)
-    #print("Tampered Vote: {}".format(tampered_vote))
 
