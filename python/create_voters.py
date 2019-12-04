@@ -3,6 +3,7 @@
 # CSC 450
 # Summary: The following script attempts to mimic the two most basic
 # components of a blockchain, a merkle tree and linked list, and demonstrates
+# how these two theories allow for the rapid verification of a block chain. 
 ##########################################################################
 
 import hashlib
@@ -62,49 +63,51 @@ def create_vote(genesis_block, id_list, candidate_hash):
 def create_block_chain(vote_block):
     """This function takes the merkle roots from each vote instance and inserts them into a dictionary."""
     block_chain = OrderedDict()
-    vote_block = vote_block[::-1]  # Reverses the order of the list
-    for index in range(0, len(vote_block)):
-        if index == len(vote_block)-1:
+    reversed_vote_block = vote_block[::-1]  # Reverses the order of the list
+    for index in range(0, len(reversed_vote_block)):
+        if index == len(reversed_vote_block)-1:
             break
         else:
-            block_chain[vote_block[index][4]] = vote_block[index+1][4]
+            block_chain[reversed_vote_block[index][4]] = reversed_vote_block[index+1][4]
 
-    return block_chain, vote_block
+    return block_chain, reversed_vote_block
 
-def create_tampered_vote(block_chain, vote_block, candidate_hash):
+def create_tampered_vote(block_chain, reversed_vote_block, candidate_hash, index):
     """This function takes a user input and modifies a voter's candidate choice."""
     merk_tree = merkle_tree()
-    index = input("Alter a vote by typing an index value from 1 to 20: ")
-    index = int(index)
-    key = vote_block[index][4]  # The merkle_root of that specific block is assigned to key
-    if vote_block[index][2] == candidate_hash[0]:  # Checks whether the value of the candidate hash equals the value of the tuple candidate_hash at index 0.
-        print("Current Block Chain: {}".format(block_chain))  
-        vote_block[index][2] = candidate_hash[1]  # If true, changes value of candidate hash to candidate_two hash value.
-        del vote_block[index][-1]  # Deletes the merkle_root of this specific block. We do not want this value to be hashed with the rest of the data in the list.
-        transaction = vote_block[index]
-        print("\nVote Candidate One Changed: {}".format(vote_block[index]))
+    key = reversed_vote_block[index][4]  # The merkle_root of that specific block is assigned to key
+    if reversed_vote_block[index][2] == candidate_hash[0]:  # Checks whether the value of the candidate hash equals the value of the tuple candidate_hash at index 0.
+        # print("Current Block Chain: {}".format(block_chain))  
+        reversed_vote_block[index][2] = candidate_hash[1]  # If true, changes value of candidate hash to candidate_two hash value.
+        del reversed_vote_block[index][-1]  # Deletes the merkle_root of this specific block. We do not want this value to be hashed with the rest of the data in the list.
+        transaction = reversed_vote_block[index]
         #print("Vote Instance: {}".format(transaction))
         merk_tree.list1 = transaction
         merk_tree.create_tree()
         merkle_root = merk_tree.Get_root_leaf()
-        print("\nMerkle Root: {}".format(merkle_root))
+        reversed_vote_block[index].append(merkle_root)
+        tampered_vote_block = reversed_vote_block
+        print("\nVote Candidate One Changed: {}".format(tampered_vote_block[index]))
+        #print("\nTampered Root: {}".format(merkle_root))
         block_chain[merkle_root] = block_chain.pop(key)  # Remove the old key and assign it the new merkle_root calculated from the tampered data.
-        print(block_chain)
-        # return block_chain
+
+        return block_chain, tampered_vote_block
     else:
-        vote_block[index][2] = candidate_hash[0]
-        print("Current Block Chain prior to candidate two being changed: {}".format(block_chain))
-        del vote_block[index][-1]
-        transaction = vote_block[index]
-        print("\nVote Candidate Two changed: {}".format(vote_block[index]))
+        reversed_vote_block[index][2] = candidate_hash[0]  # Candidate hash value inside the vote_block is assigned Candidate_Two's hash.
+        # print("Current Block Chain prior to candidate two being changed: {}".format(block_chain))
+        del reversed_vote_block[index][-1]  # Deletes the merkle_root of this specific block.
+        transaction = reversed_vote_block[index]
         # #print("Vote Instance: {}".format(transaction))
-        merk_tree.list1 = transaction
+        merk_tree.list1 = transaction  # The vote_block is assigned to the list1 function in the merkle_tree class.
         merk_tree.create_tree()
         merkle_root = merk_tree.Get_root_leaf()
-        print("\nMerkle Root: {}".format(merkle_root))
-        block_chain[merkle_root] = block_chain.pop(key)
-        print(block_chain)
-        # return block_chain
+        reversed_vote_block[index].append(merkle_root)  # Adds the new merkle_root to the end of the block.
+        tampered_vote_block = reversed_vote_block  # Since vote_block has been changed, the variable gets renamed.
+        print("\nVote Candidate Two Changed: {}".format(tampered_vote_block[index]))
+        #print("\nTampered Root: {}".format(merkle_root))
+        block_chain[merkle_root] = block_chain.pop(key)  # The merkle_root of the specific block is removed, and the new merkle_root that was calculated is added to the dictionary.
+
+        return block_chain, tampered_vote_block
 
 if __name__ == "__main__":
     merkle_root_list = []
@@ -126,7 +129,17 @@ if __name__ == "__main__":
 
         #print("Merkle Root: {}".format(merkle_root))
     block_chain = create_block_chain(vote_block)
-    create_tampered_vote(block_chain[0], block_chain[1], candidate_hash)
-    # tamper_block_chain(block_chain, merkle_root_list, tampered_vote)
+    reversed_vote_block = block_chain[1]
+    for index in range(0, 20):
+        block_chain = create_tampered_vote(block_chain[0], reversed_vote_block, candidate_hash, index)  # A tuple is returned by this function call.
+        tampered_block_chain = block_chain[0]  # Assigning tuple values to variables
+        tampered_vote_block = block_chain[1]
+        current = tampered_vote_block[index][4]
+        while current != '984ec4499b3a6b90bbcd8e05efe985a1c3c8f75a657cf0d70049ffd111f90b8dce8139ff892ba4644135c6a263729dc38104db4580609ae506c99a94f6daf607':  # Iterates through the dictionary and finds the tampered hash.
+            current = tampered_block_chain[current]
+            print("Not Tampered: {}".format(current))
+        else:
+            print("Tampered Root: {}".format(tampered_vote_block[index][4]))
+
     
 
