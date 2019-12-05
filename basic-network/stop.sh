@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-# Exit on first error.
+# Exit on first error, print all commands.
 set -ev
 
 # Shut down the Docker containers that might be currently running.
