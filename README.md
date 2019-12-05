@@ -31,7 +31,7 @@ edit the `generate.sh` script in the `basic-network` folder accordingly.
 ## Installing the Application (the chaincode)
 This must be done **before** booting up the blockchain network.
 
-After navigating to the `basic-chain/chaincode/newcc` directory, run `npm install` to install all of the 
+After navigating to the `basic-chain/organization/application` directory, run `npm install` to install all of the 
 application dependencies.
 
 ## Network commands
@@ -42,31 +42,21 @@ Chaincode (the smart contract) is currently under development.
 After you have cloned this project, open a terminal/command prompt and navigate to the folder 
 where the locally cloned version of this project is.
 
-In order to start the fabric network for the **first time**, you should run the start.sh script in the main 
+In order to start the fabric network for the **first time**, you should run the generate.sh script in the basic-network 
 folder of this repository. This script will generate the necessary config material the application needs
 to run. 
-
-If this is **not** the first time you are booting up the network, make sure you have run the teardown.sh script
-in the `basic-network` folder first. Then you may run the secondary start script that is also in the 
-`basic-network` folder.
 
 To pause the network, make sure you are in the basic-network folder and run `./stop.sh`
 
 To completely dismantle the network and remove the generated containers, make sure you are in 
 the basic-network folder and run `./teardown.sh`
 
-**Please note** each time `./teardown.sh` is run, it will run the `generate.sh` script. This will 
-regenerate the cryptoconfig material. In order to ensure the Certificate Authority container runs properly, 
-make sure to double check that the value of `FABRIC_CA_SERVER_CA_KEYFILE` in the `docker-compose.yml` is set to 
-the file name of the generated key file in the `basic-network/crypto-config/peerOrganizations/org1.example.com/ca` 
-directory.
+**Please note** each time  `generate.sh` is run, new crypto-config material is generated. This means that any files that reference crypto material must be double checked for correct values. The below files must be checked to be sure they correctly reference crypto-config materials.
+
+`basic-chain/basic-network/docker-compose.yml`
+`basic-chain/organization/application/addToWallet.js`
 
 ### Credit
-The basis of the network was taken from https://github.com/Salmandabbakuti/hlf-chaincodeTest. It was found through 
-a tutorial on medium.com. You can view the tutorial here: 
-https://medium.com/coinmonks/start-developing-hyperledger-fabric-chaincode-in-node-js-e63b655d98db.
 
-Furthermore, parts of this project were taken from Hyperledger's Fabric-Samples repository, found here:
-https://github.com/hyperledger/fabric-samples. Files that have been taken from Fabric Samples are marked with 
-`SPDX-License-Identifier: Apache-2.0`. Please keep in mind that these files have been edited for the purposes of 
-this project, but the originals are credited to hyperledger via the Apache 2.0 license markings.
+This project was taken from Hyperledger's Fabric-Samples repository, found here:
+https://github.com/hyperledger/fabric-samples. Specifically, the Commercial-Paper tutorial files were used. Files that have been taken from Fabric Samples are marked with `SPDX-License-Identifier: Apache-2.0`. Please keep in mind that these files have been edited for the purposes of this project, but the originals are credited to hyperledger via the Apache 2.0 license markings.
