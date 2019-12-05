@@ -36,15 +36,16 @@ application dependencies.
 
 ## Network commands
 
-**Please note** this only brings up a basic blockchain network with 7 peer nodes under 1 organization. 
-Chaincode (the smart contract) is currently under development. 
+**Please note** this only brings up a basic blockchain network with 1 peer node under 1 organization. 
+The crypto-config material generated is enough to bring up 7 nodes, but as is, adding the other six to the channel does 
+not currently work properly.
 
 After you have cloned this project, open a terminal/command prompt and navigate to the folder 
 where the locally cloned version of this project is.
 
 In order to start the fabric network for the **first time**, you should run the generate.sh script in the basic-network 
 folder of this repository. This script will generate the necessary config material the application needs
-to run. 
+to run. Then run `start.sh`.
 
 To pause the network, make sure you are in the basic-network folder and run `./stop.sh`
 
