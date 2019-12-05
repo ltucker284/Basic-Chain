@@ -8,8 +8,8 @@
     "test": "rm -rf _idwallet && node addToWallet.js && node issue.js"
   },
   "keywords": [],
-  "author": "Hyperledger",
-  "license": "Apache-2.0",
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "fabric-network": "~1.4.0",
     "fabric-client": "~1.4.0",

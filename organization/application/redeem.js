@@ -18,12 +18,12 @@ SPDX-License-Identifier: Apache-2.0
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { FileSystemWallet, Gateway } = require('fabric-network');
-const Vote = require('../lib/vote.js');
+const CommercialPaper = require('../contract/lib/paper.js');
 
 // A wallet stores a collection of identities for use
-//const wallet = new FileSystemWallet('../user/isabella/wallet');
-const wallet = new FileSystemWallet('../identity/admin/wallet');
-// const userName = 'Admin@org1.example.com';
+// Specify userName for network access
+const userName = 'User1@org1.example.com';
+const wallet = new FileSystemWallet('../identity/user1/wallet');
 
 // Main program function
 async function main() {
@@ -35,13 +35,13 @@ async function main() {
     try {
 
         // Load connection profile; will be used to locate a gateway
-        let connectionProfile = yaml.safeLoad(fs.readFileSync('../../../../basic-network/connection.yaml', 'utf8'));
+        let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/networkConnection.yaml', 'utf8'));
 
         // Set connection options; identity and wallet
         let connectionOptions = {
-            identity: 'Admin@org1.example.com',
+            identity: userName,
             wallet: wallet,
-            discovery: { enabled: false, asLocalhost: true }
+            discovery: { enabled:false, asLocalhost: true }
         };
 
         // Connect to gateway using application specified parameters
@@ -55,21 +55,20 @@ async function main() {
         const network = await gateway.getNetwork('mychannel');
 
         // Get addressability to commercial paper contract
-        console.log('Use org.example smart contract.');
+        console.log('Use org.papernet.commercialpaper smart contract.');
 
-        const contract = await network.getContract('votingcontract');
+        const contract = await network.getContract('papercontract', 'org.papernet.commercialpaper');
 
-        // issue commercial paper
-        console.log('Submit vote issue transaction.');
-
-        const issueResponse = await contract.submitTransaction('issue', 'MagnetoCorp', '00001', '2020-05-31', '2020-11-30', '5000000');
+        // redeem commercial paper
+        console.log('Submit commercial paper redeem transaction.');
+        const redeemResponse = await contract.submitTransaction('redeem', 'User1', '0000001', 'candidate1', userName, '2019-12-04');
 
         // process response
-        console.log('Process issue transaction response.'+issueResponse);
+        console.log('Process redeem transaction response.');
 
-        let vote = Vote.fromBuffer(issueResponse);
+        let paper = CommercialPaper.fromBuffer(redeemResponse);
 
-        console.log(`${vote.issuer} vote : ${vote.voteNumber} successfully issued for value ${vote.faceValue}`);
+        console.log(`Vote ${paper.paperNumber} was successfully redeemed by ${paper.owner}`);
         console.log('Transaction complete.');
 
     } catch (error) {
@@ -87,11 +86,11 @@ async function main() {
 }
 main().then(() => {
 
-    console.log('Issue program complete.');
+    console.log('Redeem program complete.');
 
 }).catch((e) => {
 
-    console.log('Issue program exception.');
+    console.log('Redeem program exception.');
     console.log(e);
     console.log(e.stack);
     process.exit(-1);
