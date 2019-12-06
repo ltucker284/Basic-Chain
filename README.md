@@ -61,6 +61,18 @@ be checked to be sure they correctly reference crypto-config materials.
 `basic-chain/basic-network/docker-compose.yml`
 `basic-chain/organization/application/addToWallet.js`
 
+## Running the application
+
+When trying to issue or redeem votes on the network, you should use the javascript files under the `organization/application`
+directory. You can edit the variables that are submitted for the transaction within those files. The commands to execute these
+commands are as follows.
+
+`node issue.js`
+`node redeem.js`
+
+You must run these commands under the `basic-chain/organization/application` folder for them to work. In addition,
+you must've already run npm install in this folder for these files to execute properly.
+
 ### Credit
 
 This project was taken from Hyperledger's Fabric-Samples repository, found here:
