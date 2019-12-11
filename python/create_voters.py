@@ -15,7 +15,7 @@ from merkle_tree import merkle_tree
 
 def generate_genesis_block():
     """This function passes a list to merkle_tree.py that creates the root for the genesis block"""
-    time_stamp = time.mktime(time.strptime('11/03/2020-07:59AM', '%m/%d/%Y-%I:%M%p'))  # time.mktime() generates a time_stamp in unix time.
+    time_stamp = time.mktime(time.strptime('11/02/2020-07:59AM', '%m/%d/%Y-%I:%M%p'))  # time.mktime() generates a time_stamp in unix time.
     start_timestamp = time.strftime('%m/%d/%Y-%I:%M%p', time.localtime(time_stamp))  # time.strftime() formats the unix time into a human readable timestamp string.
     genesis_block = ['0', '0', "Nonce", start_timestamp] 
 
@@ -154,16 +154,16 @@ if __name__ == "__main__":
         #print("Merkle Root: {}".format(merkle_root))
     block_chain = create_block_chain(vote_block)
     reversed_vote_block = block_chain[1]
-    # for index in range(0, 20):
-    #     block_chain = create_tampered_vote(block_chain[0], reversed_vote_block, candidate_hash, index)  # A tuple is returned by this function call.
-    #     tampered_block_chain = block_chain[0]  # Assigning tuple values to variables
-    #     tampered_vote_block = block_chain[1]
-    #     current = tampered_vote_block[index][4]
-    #     while current != '984ec4499b3a6b90bbcd8e05efe985a1c3c8f75a657cf0d70049ffd111f90b8dce8139ff892ba4644135c6a263729dc38104db4580609ae506c99a94f6daf607':  # Iterates through the dictionary and finds the tampered hash.
-    #         current = tampered_block_chain[current]
-    #         print("Not Tampered: {}".format(current))
-    #     else:
-    #         print("Tampered Root: {}".format(tampered_vote_block[index][4]))
+    for index in range(0, 20):
+        block_chain = create_tampered_vote(block_chain[0], reversed_vote_block, candidate_hash, index)  # A tuple is returned by this function call.
+        tampered_block_chain = block_chain[0]  # Assigning tuple values to variables
+        tampered_vote_block = block_chain[1]
+        current = tampered_vote_block[index][4]
+        while current != '984ec4499b3a6b90bbcd8e05efe985a1c3c8f75a657cf0d70049ffd111f90b8dce8139ff892ba4644135c6a263729dc38104db4580609ae506c99a94f6daf607':  # Iterates through the dictionary and finds the tampered hash.
+            current = tampered_block_chain[current]
+            print("Not Tampered: {}".format(current))
+        else:
+            print("Tampered Root: {}".format(tampered_vote_block[index][4]))
     print("Here is your receipt: {}".format(reversed_vote_block[0][0:4]))
     query_vote = input("Would you like to check whether your vote is in the ledger: Y/N ")
     query_vote = query_vote.lower()
