@@ -21,7 +21,11 @@ const { FileSystemWallet, Gateway } = require('fabric-network');
 const CommercialPaper = require('../contract/lib/paper.js');
 
 
-// A wallet stores a collection of identities for use
+
+const voterName = 'User1@org1.example.com';
+const voteNumber = '0000001';
+const date = '2019-12-05';
+
 const userName = 'Admin@org1.example.com';
 const wallet = new FileSystemWallet('../identity/admin/wallet');
 
@@ -62,7 +66,7 @@ async function main() {
         // issue commercial paper
         console.log('Submit commercial paper issue transaction.');
 
-        const issueResponse = await contract.submitTransaction('issue', 'User1', '0000001', '', '', '2019-12-04');
+        const issueResponse = await contract.submitTransaction('issue', voterName, voteNumber, '', '', date);
 
         // process response
         console.log('Process issue transaction response.'+issueResponse);

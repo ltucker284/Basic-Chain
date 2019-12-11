@@ -20,8 +20,9 @@ const yaml = require('js-yaml');
 const { FileSystemWallet, Gateway } = require('fabric-network');
 const CommercialPaper = require('../contract/lib/paper.js');
 
-// A wallet stores a collection of identities for use
-// Specify userName for network access
+const voteNumber = '0000001';
+const candidate ='candidate1';
+const date = '2019-12-05';
 const userName = 'User1@org1.example.com';
 const wallet = new FileSystemWallet('../identity/user1/wallet');
 
@@ -61,7 +62,7 @@ async function main() {
 
         // redeem commercial paper
         console.log('Submit commercial paper redeem transaction.');
-        const redeemResponse = await contract.submitTransaction('redeem', 'User1', '0000001', 'candidate1', userName, '2019-12-04');
+        const redeemResponse = await contract.submitTransaction('redeem', userName, voteNumber, candidate, userName, date);
 
         // process response
         console.log('Process redeem transaction response.');

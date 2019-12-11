@@ -28,11 +28,13 @@ contains the necessaries binaries to run this application on macOS. In order to 
 you must use the binaries in the `linux_bin` folder. To make sure the `linux_bin` is used, 
 edit the `generate.sh` script in the `basic-network` folder accordingly.
 
-## Installing the Application (the chaincode)
+## Installing the Application 
 This must be done **before** booting up the blockchain network.
 
 After navigating to the `basic-chain/organization/application` directory, run `npm install` to install all of the 
 application dependencies.
+
+It is **not** necessary to run `npm install` in the directory where the chaincode is located.
 
 ## Network commands
 
@@ -52,12 +54,29 @@ To pause the network, make sure you are in the basic-network folder and run `./s
 To completely dismantle the network and remove the generated containers, make sure you are in 
 the basic-network folder and run `./teardown.sh`
 
-**Please note** each time  `generate.sh` is run, new crypto-config material is generated. This means that any files that reference crypto material must be double checked for correct values. The below files must be checked to be sure they correctly reference crypto-config materials.
+**Please note** each time  `generate.sh` is run, new crypto-config material is generated. This means that 
+any files that reference crypto material must be double checked for correct values. The below files must 
+be checked to be sure they correctly reference crypto-config materials.
 
 `basic-chain/basic-network/docker-compose.yml`
 `basic-chain/organization/application/addToWallet.js`
 
+## Running the application
+
+When trying to issue or redeem votes on the network, you should use the javascript files under the `organization/application`
+directory. You can edit the variables that are submitted for the transaction within those files. The commands to execute these
+commands are as follows.
+
+`node issue.js`
+`node redeem.js`
+
+You must run these commands under the `basic-chain/organization/application` folder for them to work. In addition,
+you must've already run npm install in this folder for these files to execute properly.
+
 ### Credit
 
 This project was taken from Hyperledger's Fabric-Samples repository, found here:
-https://github.com/hyperledger/fabric-samples. Specifically, the Commercial-Paper tutorial files were used. Files that have been taken from Fabric Samples are marked with `SPDX-License-Identifier: Apache-2.0`. Please keep in mind that these files have been edited for the purposes of this project, but the originals are credited to hyperledger via the Apache 2.0 license markings.
+https://github.com/hyperledger/fabric-samples. Specifically, the Commercial-Paper tutorial files were used. 
+Files that have been taken from Fabric Samples are marked with `SPDX-License-Identifier: Apache-2.0`. Please keep in mind
+that these files have been edited for the purposes of this project, but the originals are credited to hyperledger via 
+the Apache 2.0 license markings.
