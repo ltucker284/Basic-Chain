@@ -1,4 +1,4 @@
-# Basic-Chain
+# King's Moot
 
 This is the Senior Research project of Liz Tucker and Juan Matiz. 
 
@@ -10,9 +10,8 @@ Let it be known that this application currently only runs as intended on macOS. 
 in the case that someone may wish to run this application on a Linux distribution if they wished. As is,
 there are known issues when running this on a Linux machine or VM.
 
-The python folder is an implementation of a linked list and merkle tree derived from this repository here:
-https://github.com/JaeDukSeo/Simple-Merkle-Tree-in-Python. It is completely seperate from the Hyperledger 
-application.
+The merkle-tree folder is an implementation of a linked list and merkle tree derived from this repository here:
+https://github.com/JaeDukSeo/Simple-Merkle-Tree-in-Python. It is completely seperate from the Hyperledger application.
 
 ## Prerequisites to run this application
 
@@ -78,5 +77,9 @@ you must've already run npm install in this folder for these files to execute pr
 This project was taken from Hyperledger's Fabric-Samples repository, found here:
 https://github.com/hyperledger/fabric-samples. Specifically, the Commercial-Paper tutorial files were used. 
 Files that have been taken from Fabric Samples are marked with `SPDX-License-Identifier: Apache-2.0`. Please keep in mind
-that these files have been edited for the purposes of this project, but the originals are credited to hyperledger via 
-the Apache 2.0 license markings.
+that these files have been edited for the purposes of this project, but the originals are credited to hyperledger via the Apache 2.0 license markings.
+
+Version 1.0 of this project is called Basic-Chain. The merkle-tree folder was developed and maintained by Juan. The Hyperledger application was developed and 
+maintained by Liz. When referencing the research paper in the docs folder, it corresponds to version 1.0 and 1.0 only.
+
+Any versions beyond 1.0 (King's Moot) are developed and maintained by Liz.
