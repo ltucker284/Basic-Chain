@@ -27,21 +27,15 @@ docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/etc/h
 docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.example.com/msp" peer0.org1.example.com peer channel join -b mychannel.block
 
 # echo Let the rest of the peers join the channel
-# docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.example.com/msp" peer1.org1.example.com peer channel fetch oldest mychannel.block -c mychannel --orderer orderer.example.com:7050
-# docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.example.com/msp" peer1.org1.example.com peer channel join -b mychannel.block
-# docker exec -i peer2.org1.example.com bash < ./setup-scripts/joinChannel.sh
-# docker exec -i peer3.org1.example.com bash < ./setup-scripts/joinChannel.sh
-# docker exec -i peer4.org1.example.com bash < ./setup-scripts/joinChannel.sh
-# docker exec -i peer5.org1.example.com bash < ./setup-scripts/joinChannel.sh
-# docker exec -i peer6.org1.example.com bash < ./setup-scripts/joinChannel.sh
+docker exec -i peer1.org1.example.com bash < ./setup-scripts/joinChannel.sh
+docker exec -i peer2.org1.example.com bash < ./setup-scripts/joinChannel.sh
+docker exec -i peer3.org1.example.com bash < ./setup-scripts/joinChannel.sh
+docker exec -i peer4.org1.example.com bash < ./setup-scripts/joinChannel.sh
+docker exec -i peer5.org1.example.com bash < ./setup-scripts/joinChannel.sh
+docker exec -i peer6.org1.example.com bash < ./setup-scripts/joinChannel.sh
 
 cd ../organization/configuration/cli/
 docker-compose -f docker-compose.yml up -d cliMagnetoCorp
 
 docker exec cliMagnetoCorp peer chaincode install -n papercontract -v 0 -p /opt/gopath/src/github.com/contract -l node
 docker exec cliMagnetoCorp peer chaincode instantiate -n papercontract -v 0 -l node -c '{"Args":["org.papernet.commercialpaper:instantiate"]}' -C mychannel -P "AND ('Org1MSP.member')"
-
-# cd ../../application
-# node addToWallet.js
-# node issue.js
-# node redeem.js
