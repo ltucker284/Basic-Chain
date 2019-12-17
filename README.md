@@ -82,4 +82,4 @@ that these files have been edited for the purposes of this project, but the orig
 Version 1.0 of this project is called Basic-Chain. The merkle-tree folder was developed and maintained by Juan. The Hyperledger application was developed and 
 maintained by Liz. When referencing the research paper in the docs folder, it corresponds to version 1.0 and 1.0 only.
 
-Any versions beyond 1.0 (King's Moot) are developed and maintained by Liz.
+Any versions beyond 1.0 (Basic-Chain) are developed and maintained by Liz.
